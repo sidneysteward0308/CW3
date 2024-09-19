@@ -17,11 +17,16 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
   String petName = "Pickels";
   int happinessLevel = 50;
   int hungerLevel = 50;
+  int colorvariable = 0;
+  int red = 255;
+  int green = 255;
+  int blue = 255;
 // Function to increase happiness and update hunger when playing with the pet
   void _playWithPet() {
     setState(() {
       happinessLevel = (happinessLevel + 10).clamp(0, 100);
       _updateHunger();
+      _updateColor();
     });
   }
 
@@ -30,15 +35,37 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
     setState(() {
       hungerLevel = (hungerLevel - 10).clamp(0, 100);
       _updateHappiness();
+      _updateColor();
     });
   }
 
 // Update happiness based on hunger level
-  void _updateHappiness() {
+    void _updateHappiness() {
     if (hungerLevel < 30) {
       happinessLevel = (happinessLevel - 20).clamp(0, 100);
     } else {
       happinessLevel = (happinessLevel + 10).clamp(0, 100);
+    }
+    _updateColor();
+  }
+
+  void _updateColor() {
+    if (happinessLevel < 30) {
+      //red
+      green = 50;
+      blue = 50;
+      red = 255;
+    } else if (happinessLevel > 70) {
+      //green
+      red = 50;
+      green = 255;
+      blue = 50;
+      colorvariable = 2593024;
+    } else {
+      //yellow
+      red = 255;
+      green = 255;
+      blue = 50;
     }
   }
 
@@ -50,7 +77,7 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
       happinessLevel = (happinessLevel - 20).clamp(0, 100);
     }
   }
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,6 +96,7 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
             Image.asset(
               "assets/images/petimage.png",
               width: 250,
+              color: Color.fromRGBO(red, green, blue, 100), colorBlendMode: BlendMode.modulate,
             ),
             // Text(
             //   'Name: $petName',
