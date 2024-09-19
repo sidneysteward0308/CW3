@@ -20,12 +20,16 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
   int happinessLevel = 50;
   int hungerLevel = 50;
   String mood = "Neutral";
+  int red = 255;
+  int green = 255;
+  int blue = 255;
 // Function to increase happiness and update hunger when playing with the pet
   void _playWithPet() {
     setState(() {
       happinessLevel = (happinessLevel + 10).clamp(0, 100);
       _updateHunger();
       _updateMood();
+      _updateColor();
     });
   }
 
@@ -35,6 +39,7 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
       hungerLevel = (hungerLevel - 10).clamp(0, 100);
       _updateHappiness();
       _updateMood();
+      _updateColor();
     });
   }
 
@@ -46,6 +51,7 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
       happinessLevel = (happinessLevel + 10).clamp(0, 100);
     }
     _updateMood();
+    _updateColor();
   }
 
 // Increase hunger level slightly when playing with the pet
@@ -55,7 +61,27 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
       hungerLevel = 100;
       happinessLevel = (happinessLevel - 20).clamp(0, 100);
     }
+    _updateColor();
   }
+
+  void _updateColor() {
+      if (happinessLevel < 30) {
+        //red
+        green = 50;
+        blue = 50;
+        red = 255;
+      } else if (happinessLevel > 70) {
+        //green
+        red = 50;
+        green = 255;
+        blue = 50;
+      } else {
+        //yellow
+        red = 255;
+        green = 255;
+        blue = 50;
+      }
+    }
 
   void _updateMood() {
     setState(() {
@@ -87,6 +113,7 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
             Image.asset(
               "assets/images/petimage.png",
               width: 250,
+              color: Color.fromRGBO(red, green, blue, 100), colorBlendMode: BlendMode.modulate,
             ),
             // Text(
             //   'Name: $petName',
