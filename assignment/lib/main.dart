@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MaterialApp(
+  runApp(const MaterialApp(
     home: DigitalPetApp(),
   ));
 }
 
 class DigitalPetApp extends StatefulWidget {
+  const DigitalPetApp({super.key});
+
   @override
   _DigitalPetAppState createState() => _DigitalPetAppState();
 }
 
 class _DigitalPetAppState extends State<DigitalPetApp> {
-  String petName = "Your Pet";
+  String petName = "Pickels";
   int happinessLevel = 50;
   int hungerLevel = 50;
 // Function to increase happiness and update hunger when playing with the pet
@@ -63,6 +65,15 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
               'Name: $petName',
               style: TextStyle(fontSize: 20.0),
             ),
+
+            Image.asset(
+              "assets/images/petimage.png",
+              width: 250,
+            ),
+            // Text(
+            //   'Name: $petName',
+            //   style: TextStyle(fontSize: 20.0),
+            // ),
             SizedBox(height: 16.0),
             Text(
               'Happiness Level: $happinessLevel',
