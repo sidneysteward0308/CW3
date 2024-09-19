@@ -40,7 +40,7 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
   }
 
 // Update happiness based on hunger level
-    void _updateHappiness() {
+  void _updateHappiness() {
     if (hungerLevel < 30) {
       happinessLevel = (happinessLevel - 20).clamp(0, 100);
     } else {
