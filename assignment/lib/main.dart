@@ -24,6 +24,7 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
   int green = 255;
   int blue = 255;
   String imageplaceholder = "parkbg.png";
+  String petplaceholder = "petimage.png";
 // Function to increase happiness and update hunger when playing with the pet
   void _playWithPet() {
     setState(() {
@@ -95,6 +96,7 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
       } else {
         mood = "Unhappy";
         imageplaceholder = "explosionbg.png";
+        petplaceholder = "petdead.png";
       }
     });
   }
@@ -118,11 +120,12 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
           children: <Widget>[
             Text(
               '$petName is $mood',
-              style: TextStyle(fontSize: 20.0),
+              style: TextStyle(fontSize: 20.0, color: Colors.white),
+              
             ),
 
             Image.asset(
-              "assets/images/petimage.png",
+              ("assets/images/" + petplaceholder),
               width: 250,
               color: Color.fromRGBO(red, green, blue, 100), colorBlendMode: BlendMode.modulate,
             ),
