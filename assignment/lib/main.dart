@@ -23,6 +23,7 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
   int red = 255;
   int green = 255;
   int blue = 255;
+  String imageplaceholder = "parkbg.png";
 // Function to increase happiness and update hunger when playing with the pet
   void _playWithPet() {
     setState(() {
@@ -87,10 +88,13 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
     setState(() {
       if (happinessLevel > 70) {
         mood = "Happy";
+        imageplaceholder = "dolphinbg.png";
       } else if (happinessLevel >= 30 && happinessLevel <= 70) {
         mood = "Neutral";
+        imageplaceholder = "parkbg.png";
       } else {
         mood = "Unhappy";
+        imageplaceholder = "explosionbg.png";
       }
     });
   }
@@ -101,7 +105,14 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
       appBar: AppBar(
         title: Text('Digital Pet'),
       ),
-      body: Center(
+      body: Container(
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/" + imageplaceholder),
+            fit: BoxFit.cover,
+          ),
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
