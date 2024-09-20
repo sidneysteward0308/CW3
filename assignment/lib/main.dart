@@ -31,6 +31,7 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
   Timer? _everySecond;
   int _countdown = 10;
 
+//BEGINNING OF MOOD RELATED FUNCTIONS
 // Function to increase happiness and update hunger when playing with the pet
   void _playWithPet() {
     setState(() {
@@ -76,6 +77,19 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
     _updateColor();
   }
 
+  void _updateMood() {
+    if (happinessLevel > 70) {
+      mood = "Happy";
+      imageplaceholder = "dolphinbg.png";
+    } else if (happinessLevel >= 30 && happinessLevel <= 70) {
+      mood = "Neutral";
+      imageplaceholder = "parkbg.png";
+    } else {
+      mood = "Unhappy";
+      imageplaceholder = "explosionbg.png";
+    }
+  }
+
   void _updateColor() {
     if (happinessLevel < 30) {
       //red
@@ -94,7 +108,9 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
       blue = 50;
     }
   }
+  //END OF MOOD RELATED FUNCTIONS
 
+//BEGINNING OF TIMER RELATED FUNCTIONS
   void _countDownTimer(int seconds) {
     _countdown = 10;
 
@@ -131,20 +147,9 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
     _now = '$petName is $mood\n Current Timer: $_countdown';
     _countDownTimer(1);
   }
+  //END OF TIMER RELATED FUNCTIONS
 
-  void _updateMood() {
-    if (happinessLevel > 70) {
-      mood = "Happy";
-      imageplaceholder = "dolphinbg.png";
-    } else if (happinessLevel >= 30 && happinessLevel <= 70) {
-      mood = "Neutral";
-      imageplaceholder = "parkbg.png";
-    } else {
-      mood = "Unhappy";
-      imageplaceholder = "explosionbg.png";
-    }
-  }
-
+  //BEGINNING OF STYLES
   Shadow _setShadow(double pointOne, double pointTwo, Color color) {
     return Shadow(
         // bottomLeft
@@ -191,7 +196,7 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
       );
     } else {
       return GoogleFonts.pixelifySans(
-        color: Color.fromARGB(255, 253, 253, 253),
+        color: const Color.fromARGB(255, 253, 253, 253),
         shadows: [
           _setShadow(-1.5, -1.5, Colors.black),
           _setShadow(1.5, -1.5, Colors.black),
@@ -211,13 +216,13 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
       buttonList.add(
         ElevatedButton(
           onPressed: _playWithPet,
-          child: Text('Play with Your Pet'),
+          child: const Text('Play with Your Pet'),
         ),
       );
       buttonList.add(
         ElevatedButton(
           onPressed: _feedPet,
-          child: Text('Feed Your Pet'),
+          child: const Text('Feed Your Pet'),
         ),
       );
     } else {
@@ -237,13 +242,15 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
             _playWithPet();
             _feedPet();
           },
-          child: Text('Try Again'),
+          child: const Text('Try Again'),
         ),
       );
     }
 
     return buttonList;
   }
+
+  //END OF STYLES
 
   @override
   Widget build(BuildContext context) {
@@ -253,7 +260,7 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
         title: Text(
           'Digital Pet',
           style: GoogleFonts.pixelifySans(
-            color: Color.fromARGB(255, 222, 214, 214),
+            color: const Color.fromARGB(255, 222, 214, 214),
             shadows: [
               _setShadow(-1.5, -1.5, Colors.black),
               _setShadow(1.5, -1.5, Colors.black),
@@ -292,17 +299,17 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
             //   'Name: $petName',
             //   style: TextStyle(fontSize: 20.0),
             // ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             Text(
               'Happiness Level: $happinessLevel',
-              style: TextStyle(fontSize: 20.0),
+              style: const TextStyle(fontSize: 20.0),
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             Text(
               'Hunger Level: $hungerLevel',
-              style: TextStyle(fontSize: 20.0),
+              style: const TextStyle(fontSize: 20.0),
             ),
-            SizedBox(height: 32.0),
+            const SizedBox(height: 32.0),
             ..._buildButtons(),
           ],
         ),
