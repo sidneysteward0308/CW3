@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'dart:async';
 
 void main() {
   runApp(const MaterialApp(
@@ -25,11 +27,17 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
   int blue = 255;
   String imageplaceholder = "parkbg.png";
   String petplaceholder = "petimage.png";
+  String _now = "";
+  Timer? _everySecond;
+  int _countdown = 10;
+
 // Function to increase happiness and update hunger when playing with the pet
   void _playWithPet() {
     setState(() {
-      happinessLevel = (happinessLevel + 10).clamp(0, 100);
-      _updateHunger();
+      if (_countdown != 0) {
+        happinessLevel = (happinessLevel + 10).clamp(0, 100);
+        _updateHunger();
+      }
       _updateMood();
       _updateColor();
     });
@@ -38,8 +46,10 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
 // Function to decrease hunger and update happiness when feeding the pet
   void _feedPet() {
     setState(() {
-      hungerLevel = (hungerLevel - 10).clamp(0, 100);
-      _updateHappiness();
+      if (_countdown != 0) {
+        hungerLevel = (hungerLevel - 10).clamp(0, 100);
+        _updateHappiness();
+      }
       _updateMood();
       _updateColor();
     });
@@ -67,47 +77,194 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
   }
 
   void _updateColor() {
-      if (happinessLevel < 30) {
-        //red
-        green = 50;
-        blue = 50;
-        red = 255;
-      } else if (happinessLevel > 70) {
-        //green
-        red = 50;
-        green = 255;
-        blue = 50;
-      } else {
-        //yellow
-        red = 255;
-        green = 255;
-        blue = 50;
-      }
+    if (happinessLevel < 30) {
+      //red
+      green = 50;
+      blue = 50;
+      red = 255;
+    } else if (happinessLevel > 70) {
+      //green
+      red = 50;
+      green = 255;
+      blue = 50;
+    } else {
+      //yellow
+      red = 255;
+      green = 255;
+      blue = 50;
     }
+  }
+
+  void _countDownTimer(int seconds) {
+    _countdown = 10;
+
+    _everySecond = Timer.periodic(Duration(seconds: seconds), (Timer t) {
+      setState(() {
+        if (_countdown > 0) {
+          _countdown--;
+          if (hungerLevel < 100) {
+            hungerLevel += 15;
+          }
+          _now = '$petName is $mood\n Current Timer: $_countdown';
+        } else {
+          t.cancel();
+          if (happinessLevel > 70) {
+            _now = "Winner";
+          } else if (happinessLevel >= 30 && happinessLevel <= 70) {
+            _now = "Meh";
+          } else {
+            _now = "GAME OVER";
+          }
+        }
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _now = '$petName is $mood\n Current Timer: $_countdown';
+    _countDownTimer(1);
+  }
+
+  void _restart() {
+    _now = '$petName is $mood\n Current Timer: $_countdown';
+    _countDownTimer(1);
+  }
 
   void _updateMood() {
-    setState(() {
-      if (happinessLevel > 70) {
-        mood = "Happy";
-        imageplaceholder = "dolphinbg.png";
-        petplaceholder = "petimage.png";
-      } else if (happinessLevel >= 30 && happinessLevel <= 70) {
-        mood = "Neutral";
-        imageplaceholder = "parkbg.png";
-        petplaceholder = "petimage.png";
-      } else {
-        mood = "Unhappy";
-        imageplaceholder = "explosionbg.png";
-        petplaceholder = "petdead.png";
-      }
-    });
+    if (happinessLevel > 70) {
+      mood = "Happy";
+      imageplaceholder = "dolphinbg.png";
+    } else if (happinessLevel >= 30 && happinessLevel <= 70) {
+      mood = "Neutral";
+      imageplaceholder = "parkbg.png";
+    } else {
+      mood = "Unhappy";
+      imageplaceholder = "explosionbg.png";
+    }
+  }
+
+  Shadow _setShadow(double pointOne, double pointTwo, Color color) {
+    return Shadow(
+        // bottomLeft
+        offset: Offset(pointOne, pointTwo),
+        color: color);
+  }
+
+  TextStyle _getTextStyle() {
+    if (_now.contains("Winner") && _countdown == 0) {
+      return GoogleFonts.pixelifySans(
+        color: const Color.fromARGB(255, 15, 136, 15),
+        shadows: [
+          _setShadow(-1.5, -1.5, Colors.white),
+          _setShadow(1.5, -1.5, Colors.white),
+          _setShadow(1.5, 1.5, Colors.white),
+          _setShadow(-1.5, 1.5, Colors.white),
+        ],
+        fontSize: 60,
+        fontWeight: FontWeight.bold,
+      );
+    } else if (_now.contains("Meh") && _countdown == 0) {
+      return GoogleFonts.pixelifySans(
+        color: const Color.fromARGB(255, 176, 156, 46),
+        shadows: [
+          _setShadow(-1.5, -1.5, Colors.white),
+          _setShadow(1.5, -1.5, Colors.white),
+          _setShadow(1.5, 1.5, Colors.white),
+          _setShadow(-1.5, 1.5, Colors.white),
+        ],
+        fontSize: 60,
+        fontWeight: FontWeight.bold,
+      );
+    } else if (_now.contains("GAME OVER") && _countdown == 0) {
+      return GoogleFonts.pixelifySans(
+        color: const Color.fromARGB(255, 161, 8, 8),
+        shadows: [
+          _setShadow(-1.5, -1.5, Colors.black),
+          _setShadow(1.5, -1.5, Colors.black),
+          _setShadow(1.5, 1.5, Colors.black),
+          _setShadow(-1.5, 1.5, Colors.black),
+        ],
+        fontSize: 60,
+        fontWeight: FontWeight.bold,
+      );
+    } else {
+      return GoogleFonts.pixelifySans(
+        color: Color.fromARGB(255, 253, 253, 253),
+        shadows: [
+          _setShadow(-1.5, -1.5, Colors.black),
+          _setShadow(1.5, -1.5, Colors.black),
+          _setShadow(1.5, 1.5, Colors.black),
+          _setShadow(-1.5, 1.5, Colors.black),
+        ],
+        fontSize: 30.0,
+        fontWeight: FontWeight.w500,
+      );
+    }
+  }
+
+  List<ElevatedButton> _buildButtons() {
+    List<ElevatedButton> buttonList = [];
+
+    if (_countdown != 0) {
+      buttonList.add(
+        ElevatedButton(
+          onPressed: _playWithPet,
+          child: Text('Play with Your Pet'),
+        ),
+      );
+      buttonList.add(
+        ElevatedButton(
+          onPressed: _feedPet,
+          child: Text('Feed Your Pet'),
+        ),
+      );
+    } else {
+      buttonList.add(
+        ElevatedButton(
+          onPressed: () {
+            if (happinessLevel > 70) {
+              _now = "Winner";
+            } else if (happinessLevel >= 30 && happinessLevel <= 70) {
+              _now = "Meh";
+            } else {
+              _now = "GAME OVER";
+            }
+            _now = '$petName is $mood\n Current Timer: $_countdown';
+
+            _restart();
+            _playWithPet();
+            _feedPet();
+          },
+          child: Text('Try Again'),
+        ),
+      );
+    }
+
+    return buttonList;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: Text('Digital Pet'),
+        title: Text(
+          'Digital Pet',
+          style: GoogleFonts.pixelifySans(
+            color: Color.fromARGB(255, 222, 214, 214),
+            shadows: [
+              _setShadow(-1.5, -1.5, Colors.black),
+              _setShadow(1.5, -1.5, Colors.black),
+              _setShadow(1.5, 1.5, Colors.black),
+              _setShadow(-1.5, 1.5, Colors.black),
+            ],
+            fontSize: 40.0,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        backgroundColor: Colors.transparent,
       ),
       body: Container(
         alignment: Alignment.center,
@@ -121,15 +278,15 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              '$petName is $mood',
-              style: TextStyle(fontSize: 20.0, color: Colors.white),
-              
+              _now,
+              style: _getTextStyle(),
             ),
 
             Image.asset(
               ("assets/images/" + petplaceholder),
               width: 250,
-              color: Color.fromRGBO(red, green, blue, 100), colorBlendMode: BlendMode.modulate,
+              color: Color.fromRGBO(red, green, blue, 100),
+              colorBlendMode: BlendMode.modulate,
             ),
             // Text(
             //   'Name: $petName',
@@ -146,15 +303,7 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
               style: TextStyle(fontSize: 20.0),
             ),
             SizedBox(height: 32.0),
-            ElevatedButton(
-              onPressed: _playWithPet,
-              child: Text('Play with Your Pet'),
-            ),
-            SizedBox(height: 16.0),
-            ElevatedButton(
-              onPressed: _feedPet,
-              child: Text('Feed Your Pet'),
-            ),
+            ..._buildButtons(),
           ],
         ),
       ),
