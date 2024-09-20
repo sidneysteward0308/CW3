@@ -4,6 +4,7 @@ import 'dart:async';
 
 void main() {
   runApp(const MaterialApp(
+    debugShowCheckedModeBanner: false,
     home: DigitalPetApp(),
   ));
 }
