@@ -90,9 +90,11 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
       if (happinessLevel > 70) {
         mood = "Happy";
         imageplaceholder = "dolphinbg.png";
+        petplaceholder = "petimage.png";
       } else if (happinessLevel >= 30 && happinessLevel <= 70) {
         mood = "Neutral";
         imageplaceholder = "parkbg.png";
+        petplaceholder = "petimage.png";
       } else {
         mood = "Unhappy";
         imageplaceholder = "explosionbg.png";
