@@ -285,7 +285,7 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
             Image.asset(
               ("assets/images/" + petplaceholder),
               width: 250,
-              color: Color.fromRGBO(red, green, blue, 100),
+              color: Color.fromRGBO(red, green, blue, 1),
               colorBlendMode: BlendMode.modulate,
             ),
             // Text(
