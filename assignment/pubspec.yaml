@@ -69,6 +69,8 @@ flutter:
    - assets/images/explosionbg.png
    - assets/images/dolphinbg.png
    - assets/images/petdead.png
+   - assets/images/angrypetimage.png
+   - assets/images/coolcat.png
   
   #   - images/a_dot_ham.jpeg
 

@@ -81,12 +81,15 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
   void _updateMood() {
     if (happinessLevel > 70) {
       mood = "Happy";
+      petplaceholder = "coolcat.png";
       imageplaceholder = "dolphinbg.png";
     } else if (happinessLevel >= 30 && happinessLevel <= 70) {
       mood = "Neutral";
+      petplaceholder = "petimage.png";
       imageplaceholder = "parkbg.png";
     } else {
       mood = "Unhappy";
+      petplaceholder = "angrypetimage.png";
       imageplaceholder = "explosionbg.png";
     }
   }
@@ -291,11 +294,13 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
             ),
 
             Image.asset(
-              ("assets/images/" + petplaceholder),
-              width: 250,
+              "assets/images/" + petplaceholder,
+              width: 300,
               color: Color.fromRGBO(red, green, blue, 1),
               colorBlendMode: BlendMode.modulate,
+              key: UniqueKey(), // Forces the widget to reload the image
             ),
+
             // Text(
             //   'Name: $petName',
             //   style: TextStyle(fontSize: 20.0),
